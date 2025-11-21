@@ -4,13 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import ProductCard from "@/components/ProductCard";
-import { products, collections } from "@/data/products";
+import { products as mockProducts, collections } from "@/data/products";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useProductReviews } from "@/hooks/useProductReviews";
 import heroImage from "@/assets/hero-living-room.jpg";
 
 const Index = () => {
   const { toggleWishlist, isWishlisted } = useWishlist();
+  const { products: shopifyProducts, isLoading } = useShopifyProducts();
+  const products = shopifyProducts.length > 0 ? shopifyProducts : mockProducts;
+  
   const featuredProducts = products.filter(p => p.isBestseller || p.isNew);
   const newArrivals = products.filter(p => p.isNew);
   const bestsellers = products.filter(p => p.isBestseller);
@@ -139,15 +143,25 @@ const Index = () => {
           </div>
 
           <div className="product-grid mb-12">
-            {featuredProducts.map((product) => (
-              <ProductCard 
-                key={product.id} 
-                product={product} 
-                reviewData={getProductReviews(product.id)}
-                onToggleWishlist={toggleWishlist}
-                isWishlisted={isWishlisted(product.id)}
-              />
-            ))}
+            {isLoading ? (
+              <div className="col-span-full text-center py-12">
+                <p className="text-muted-foreground">Loading products...</p>
+              </div>
+            ) : featuredProducts.length === 0 ? (
+              <div className="col-span-full text-center py-12">
+                <p className="text-muted-foreground">No products found</p>
+              </div>
+            ) : (
+              featuredProducts.map((product) => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product} 
+                  reviewData={getProductReviews(product.id)}
+                  onToggleWishlist={toggleWishlist}
+                  isWishlisted={isWishlisted(product.id)}
+                />
+              ))
+            )}
           </div>
 
           <div className="text-center">
@@ -202,15 +216,25 @@ const Index = () => {
           </div>
 
           <div className="product-grid">
-            {newArrivals.map((product) => (
-              <ProductCard 
-                key={product.id} 
-                product={product} 
-                reviewData={getProductReviews(product.id)}
-                onToggleWishlist={toggleWishlist}
-                isWishlisted={isWishlisted(product.id)}
-              />
-            ))}
+            {isLoading ? (
+              <div className="col-span-full text-center py-12">
+                <p className="text-muted-foreground">Loading new arrivals...</p>
+              </div>
+            ) : newArrivals.length === 0 ? (
+              <div className="col-span-full text-center py-12">
+                <p className="text-muted-foreground">No new arrivals yet</p>
+              </div>
+            ) : (
+              newArrivals.map((product) => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product} 
+                  reviewData={getProductReviews(product.id)}
+                  onToggleWishlist={toggleWishlist}
+                  isWishlisted={isWishlisted(product.id)}
+                />
+              ))
+            )}
           </div>
         </div>
       </section>

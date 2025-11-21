@@ -16,7 +16,8 @@ import AdvancedFilters, { FilterState } from "@/components/AdvancedFilters";
 import ProductComparison from "@/components/ProductComparison";
 import RecentlyViewed from "@/components/RecentlyViewed";
 import SearchInput from "@/components/SearchInput";
-import { products, getProductsByStyle, Product } from "@/data/products";
+import { products as mockProducts, getProductsByStyle, Product } from "@/data/products";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
 import { useProductComparison } from "@/hooks/useProductComparison";
 import { useProductReviews } from "@/hooks/useProductReviews";
 import { useWishlist } from "@/contexts/WishlistContext";
@@ -25,6 +26,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 
 const Shop = () => {
+  const { products: shopifyProducts, isLoading: loadingShopify } = useShopifyProducts();
+  const products = shopifyProducts.length > 0 ? shopifyProducts : mockProducts;
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedRoom, setSelectedRoom] = useState("all");
