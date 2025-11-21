@@ -34,6 +34,7 @@ export interface Product {
   price: number;
   originalPrice?: number;
   image: string;
+  images?: string[];
   category: string;
   room: string;
   style: string[];

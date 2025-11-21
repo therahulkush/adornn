@@ -164,10 +164,11 @@ export function convertShopifyProduct(shopifyProduct: ShopifyProduct, category: 
   
   const price = parseFloat(node.priceRange.minVariantPrice.amount);
   
-  // Get image from our mapping or use first Shopify image or placeholder
-  const productImage = productImageMap[node.handle] || 
-    node.images.edges[0]?.node.url || 
-    "/placeholder.svg";
+  // Get all images from Shopify or use mapped image as fallback
+  const allImages = node.images.edges.map(edge => edge.node.url);
+  const productImage = allImages.length > 0 
+    ? allImages[0] 
+    : productImageMap[node.handle] || "/placeholder.svg";
   
   // Determine room based on product type
   let room = "Bath & Body";
@@ -203,6 +204,7 @@ export function convertShopifyProduct(shopifyProduct: ShopifyProduct, category: 
     name: node.title,
     price,
     image: productImage,
+    images: allImages.length > 0 ? allImages : [productImage],
     category: node.productType || category,
     room,
     style: styles,
