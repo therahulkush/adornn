@@ -16,10 +16,10 @@ const Index = lazy(() => import("./pages/Index"));
 const Shop = lazy(() => import("./pages/Shop"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Account = lazy(() => import("./pages/Account"));
-const LivingRoom = lazy(() => import("./pages/LivingRoom"));
-const Bedroom = lazy(() => import("./pages/Bedroom"));
-const Kitchen = lazy(() => import("./pages/Kitchen"));
-const Office = lazy(() => import("./pages/Office"));
+const BathAndBody = lazy(() => import("./pages/BathAndBody"));
+const Skincare = lazy(() => import("./pages/Skincare"));
+const HairCare = lazy(() => import("./pages/HairCare"));
+const Wellness = lazy(() => import("./pages/Wellness"));
 const StyleQuizPage = lazy(() => import("./pages/StyleQuizPage"));
 const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const About = lazy(() => import("./pages/About"));
@@ -77,10 +77,10 @@ const App = () => {
                       <Route path="/shop" element={<Shop />} />
                       <Route path="/cart" element={<Cart />} />
                       <Route path="/account" element={<Account />} />
-                      <Route path="/shop/living-room" element={<LivingRoom />} />
-                      <Route path="/shop/bedroom" element={<Bedroom />} />
-                      <Route path="/shop/kitchen" element={<Kitchen />} />
-                      <Route path="/shop/office" element={<Office />} />
+                      <Route path="/shop/bath-and-body" element={<BathAndBody />} />
+                      <Route path="/shop/skincare" element={<Skincare />} />
+                      <Route path="/shop/hair-care" element={<HairCare />} />
+                      <Route path="/shop/wellness" element={<Wellness />} />
                       <Route path="/style-quiz" element={<StyleQuizPage />} />
                       <Route path="/product/:id" element={<ProductDetail />} />
                       <Route path="/about" element={<About />} />

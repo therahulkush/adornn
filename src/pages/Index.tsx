@@ -15,9 +15,16 @@ const Index = () => {
   const { products: shopifyProducts, isLoading } = useShopifyProducts();
   const products = shopifyProducts.length > 0 ? shopifyProducts : mockProducts;
   
-  const featuredProducts = products.filter(p => p.isBestseller || p.isNew);
-  const newArrivals = products.filter(p => p.isNew);
-  const bestsellers = products.filter(p => p.isBestseller);
+  // Show all products as featured if we have Shopify products, otherwise filter
+  const featuredProducts = shopifyProducts.length > 0 
+    ? shopifyProducts.slice(0, 8) 
+    : products.filter(p => p.isBestseller || p.isNew);
+  const newArrivals = shopifyProducts.length > 0
+    ? shopifyProducts.slice(0, 4)
+    : products.filter(p => p.isNew);
+  const bestsellers = shopifyProducts.length > 0
+    ? shopifyProducts.slice(0, 4)
+    : products.filter(p => p.isBestseller);
   
   // Get review data for all products displayed on the page
   const allDisplayedProducts = [...featuredProducts, ...newArrivals];

@@ -1,4 +1,5 @@
 import { toast } from "sonner";
+import { productImageMap } from "@/data/products";
 
 const SHOPIFY_API_VERSION = '2025-07';
 const SHOPIFY_STORE_PERMANENT_DOMAIN = 'lovable-project-m5qu5.myshopify.com';
@@ -163,6 +164,11 @@ export function convertShopifyProduct(shopifyProduct: ShopifyProduct, category: 
   
   const price = parseFloat(node.priceRange.minVariantPrice.amount);
   
+  // Get image from our mapping or use first Shopify image or placeholder
+  const productImage = productImageMap[node.handle] || 
+    node.images.edges[0]?.node.url || 
+    "/placeholder.svg";
+  
   // Determine room based on product type
   let room = "Bath & Body";
   if (node.productType.toLowerCase().includes("hair")) {
@@ -196,7 +202,7 @@ export function convertShopifyProduct(shopifyProduct: ShopifyProduct, category: 
     id,
     name: node.title,
     price,
-    image: node.images.edges[0]?.node.url || "/placeholder.svg",
+    image: productImage,
     category: node.productType || category,
     room,
     style: styles,

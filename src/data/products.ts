@@ -1,4 +1,11 @@
 import heroImage from "@/assets/hero-living-room.jpg";
+import herbalShampooImage from "@/assets/product-herbal-shampoo.jpg";
+import hairOilImage from "@/assets/product-hair-oil.jpg";
+import hairMaskImage from "@/assets/product-hair-mask.jpg";
+import facePackImage from "@/assets/product-face-pack.jpg";
+import faceSerumImage from "@/assets/product-face-serum.jpg";
+import bodyUbtanImage from "@/assets/product-body-ubtan.jpg";
+import magicalPackImage from "@/assets/product-magical-pack.jpg";
 import lampImage from "@/assets/product-lamp.jpg";
 import pillowImage from "@/assets/product-pillow.jpg";
 import vaseImage from "@/assets/product-vase.jpg";
@@ -9,6 +16,17 @@ import bedroomBeddingImage from "@/assets/bedroom-bedding.jpg";
 import bedroomLampImage from "@/assets/bedroom-lamp.jpg";
 import kitchenCanistersImage from "@/assets/kitchen-canisters.jpg";
 import kitchenCuttingBoardImage from "@/assets/kitchen-cutting-board.jpg";
+
+// Product image mapping by handle
+export const productImageMap: Record<string, string> = {
+  "herbaura-herbal-shampoo": herbalShampooImage,
+  "herbaura-herbal-hair-oil": hairOilImage,
+  "herbaura-jujube-hair-spa-mask": hairMaskImage,
+  "adornn-herbal-mukh-lep-face-pack": facePackImage,
+  "kumkumadi-tailam-face-serum": faceSerumImage,
+  "adornn-herbal-body-ubtan": bodyUbtanImage,
+  "herbaura-magical-hair-pack": magicalPackImage,
+};
 
 export interface Product {
   id: string;
