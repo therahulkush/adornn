@@ -156,43 +156,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Quick Shop Categories */}
-      <section className="py-16 bg-gradient-subtle">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl font-medium text-primary mb-4">
-              Shop by Category
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Elevate your self-care with our expertly curated collections
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {["Bath & Body", "Skincare", "Hair Care", "Wellness"].map((category) => {
-              const categoryPath = category.toLowerCase().replace(' ', '-').replace('&', 'and');
-              return (
-                <Link key={category} to={`/shop/${categoryPath}`}>
-                  <Card className="group card-warm hover:shadow-medium transition-all duration-300 cursor-pointer">
-                    <CardContent className="p-6 text-center">
-                      <div className="w-16 h-16 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                        {getCategoryIcon(category)}
-                      </div>
-                      <h3 className="font-medium text-primary group-hover:text-primary/80 transition-colors">
-                        {category}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        Discover products
-                      </p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* Featured Products */}
       <section className="py-16">
         <div className="container mx-auto px-4">
