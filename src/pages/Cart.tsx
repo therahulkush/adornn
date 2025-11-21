@@ -27,7 +27,7 @@ const Cart = () => {
   const [showRemoveConfirm, setShowRemoveConfirm] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const formatPrice = (price: number) => `$${price.toFixed(2)}`;
+  const formatPrice = (price: number) => `₹${price.toFixed(2)}`;
 
   const handleApplyPromo = () => {
     if (promoInput.trim()) {
@@ -310,9 +310,9 @@ const Cart = () => {
                   </span>
                 </div>
                 
-                {getSubtotal() < 75 && getSubtotal() > 0 && (
+                {getSubtotal() < 6225 && getSubtotal() > 0 && (
                   <p className="text-sm text-muted-foreground text-center sm:text-left">
-                    Add {formatPrice(75 - getSubtotal())} more for free shipping!
+                    Add {formatPrice(6225 - getSubtotal())} more for free shipping!
                   </p>
                 )}
                 

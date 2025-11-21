@@ -238,7 +238,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const getShippingCost = () => {
     const subtotal = getSubtotal();
-    return subtotal >= 75 ? 0 : 9.99; // Free shipping over $75
+    return subtotal >= 6225 ? 0 : 830; // Free shipping over ₹6225 (equivalent to $75)
   };
 
   const getCartTotal = () => {

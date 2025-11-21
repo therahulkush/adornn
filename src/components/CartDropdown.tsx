@@ -17,7 +17,7 @@ const CartDropdown = () => {
 
   if (!state.isOpen) return null;
 
-  const formatPrice = (price: number) => `$${price.toFixed(2)}`;
+  const formatPrice = (price: number) => `₹${price.toFixed(2)}`;
 
   return (
     <>
