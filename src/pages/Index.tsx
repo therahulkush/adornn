@@ -1,4 +1,4 @@
-import { ArrowRight, Heart, Star, Truck, Shield, RotateCcw, Bath, Sparkles, Flower2, Leaf } from "lucide-react";
+import { ArrowRight, Heart, Star, Truck, Shield, RotateCcw, Bath, Sparkles, Flower2, Leaf, Award, CheckCircle2, Droplets, Sprout } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -95,6 +95,62 @@ const Index = () => {
             <div className="flex items-center justify-center gap-3">
               <Heart className="h-5 w-5 text-primary" />
               <span className="text-sm font-medium">Dermatologist Tested</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="py-16 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="font-playfair text-3xl font-medium text-primary mb-4">
+              Why Choose Adornn
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Experience the perfect blend of ancient Ayurvedic wisdom and modern wellness
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Sprout className="h-10 w-10 text-primary-foreground" />
+              </div>
+              <h3 className="font-semibold text-lg text-foreground mb-2">100% Natural Ingredients</h3>
+              <p className="text-sm text-muted-foreground">
+                Crafted with pure herbal extracts and traditional Ayurvedic formulations, free from harmful chemicals
+              </p>
+            </div>
+
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Award className="h-10 w-10 text-primary-foreground" />
+              </div>
+              <h3 className="font-semibold text-lg text-foreground mb-2">Time-Tested Recipes</h3>
+              <p className="text-sm text-muted-foreground">
+                Formulated using centuries-old Ayurvedic wisdom passed down through generations of experts
+              </p>
+            </div>
+
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <CheckCircle2 className="h-10 w-10 text-primary-foreground" />
+              </div>
+              <h3 className="font-semibold text-lg text-foreground mb-2">Quality Assured</h3>
+              <p className="text-sm text-muted-foreground">
+                Every product is carefully tested and certified to ensure safety, purity, and effectiveness
+              </p>
+            </div>
+
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Droplets className="h-10 w-10 text-primary-foreground" />
+              </div>
+              <h3 className="font-semibold text-lg text-foreground mb-2">Holistic Wellness</h3>
+              <p className="text-sm text-muted-foreground">
+                More than just products—experience complete body, mind, and soul rejuvenation
+              </p>
             </div>
           </div>
         </div>
