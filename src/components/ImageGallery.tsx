@@ -5,15 +5,18 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import LazyImage from "@/components/LazyImage";
 
 interface ImageGalleryProps {
-  image: string;
+  images: string[];
   name: string;
 }
 
-const ImageGallery = ({ image, name }: ImageGalleryProps) => {
+const ImageGallery = ({ images, name }: ImageGalleryProps) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const touchStartX = useRef<number>(0);
   const touchStartY = useRef<number>(0);
+  
+  const currentImage = images[selectedImageIndex] || images[0] || "/placeholder.svg";
 
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
@@ -52,7 +55,7 @@ const ImageGallery = ({ image, name }: ImageGalleryProps) => {
         {/* Main Image */}
         <div className="relative group bg-card rounded-lg overflow-hidden aspect-square">
           <LazyImage
-            src={image}
+            src={currentImage}
             alt={name}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
@@ -74,19 +77,25 @@ const ImageGallery = ({ image, name }: ImageGalleryProps) => {
           />
         </div>
 
-        {/* Thumbnail row (placeholder for future multiple images) */}
+        {/* Thumbnail row */}
         <div className="flex gap-2">
-          <div className="w-16 h-16 bg-card rounded border-2 border-primary overflow-hidden">
-            <LazyImage
-              src={image}
-              alt={`${name} thumbnail`}
-              className="w-full h-full object-cover"
-            />
-          </div>
-          {/* Placeholder thumbnails for future expansion */}
-          <div className="w-16 h-16 bg-muted rounded border border-border opacity-50" />
-          <div className="w-16 h-16 bg-muted rounded border border-border opacity-50" />
-          <div className="w-16 h-16 bg-muted rounded border border-border opacity-50" />
+          {images.map((img, index) => (
+            <div
+              key={index}
+              className={`w-16 h-16 rounded overflow-hidden cursor-pointer transition-all ${
+                selectedImageIndex === index
+                  ? "border-2 border-primary"
+                  : "border border-border opacity-70 hover:opacity-100"
+              }`}
+              onClick={() => setSelectedImageIndex(index)}
+            >
+              <LazyImage
+                src={img}
+                alt={`${name} view ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
         </div>
       </div>
 
@@ -105,7 +114,7 @@ const ImageGallery = ({ image, name }: ImageGalleryProps) => {
             
             <div className="relative flex items-center justify-center min-h-[50vh] max-h-[85vh] overflow-hidden">
               <LazyImage
-                src={image}
+                src={currentImage}
                 alt={name}
                 className={`transition-all duration-300 cursor-zoom-${isZoomed ? 'out' : 'in'} ${
                   isZoomed 

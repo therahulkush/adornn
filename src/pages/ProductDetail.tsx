@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
-import { products, getProductsByStyle } from "@/data/products";
 import ImageGallery from "@/components/ImageGallery";
 import ProductReviews from "@/components/ProductReviews";
 import RelatedProducts from "@/components/RelatedProducts";
@@ -16,6 +15,8 @@ import { useProductComparison } from "@/hooks/useProductComparison";
 import { useCart } from "@/contexts/CartContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useReviews } from "@/hooks/useReviews";
+import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { products as mockProducts } from "@/data/products";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -26,8 +27,12 @@ const ProductDetail = () => {
   const { addToComparison, isInComparison, canAddToComparison } = useProductComparison();
   const { addItem } = useCart();
   const { isWishlisted, toggleWishlist } = useWishlist();
-
-  const product = products.find(p => p.id === id);
+  const { products: shopifyProducts, isLoading } = useShopifyProducts();
+  
+  // Use Shopify products if available, otherwise fall back to mock data
+  const allProducts = shopifyProducts.length > 0 ? shopifyProducts : mockProducts;
+  const product = allProducts.find(p => p.id === id);
+  
   const { averageRating, totalReviews } = useReviews(product?.id || "");
   
   // Add to recently viewed when component mounts
@@ -36,6 +41,14 @@ const ProductDetail = () => {
       addToRecentlyViewed(product);
     }
   }, [product, addToRecentlyViewed]);
+  
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-16 text-center">
+        <p className="text-muted-foreground">Loading product...</p>
+      </div>
+    );
+  }
   
   if (!product) {
     return (
@@ -47,7 +60,15 @@ const ProductDetail = () => {
     );
   }
 
-  const relatedProducts = getProductsByStyle(product.style).filter(p => p.id !== product.id).slice(0, 4);
+  const relatedProducts = allProducts.filter(p => 
+    p.category === product.category && p.id !== product.id
+  ).slice(0, 4);
+  
+  // Get product images - use array of images from Shopify or duplicate single image for front/back view
+  const productImages = product.images && product.images.length > 0 
+    ? product.images 
+    : [product.image, product.image];
+  
   const hasDiscount = product.originalPrice && product.originalPrice > product.price;
   const discountPercentage = hasDiscount ? Math.round(((product.originalPrice! - product.price) / product.originalPrice!) * 100) : 0;
 
@@ -97,7 +118,7 @@ const ProductDetail = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Images */}
           <div>
-            <ImageGallery image={product.image} name={product.name} />
+            <ImageGallery images={productImages} name={product.name} />
           </div>
 
           {/* Product Information */}
@@ -145,12 +166,12 @@ const ProductDetail = () => {
             <div className="space-y-2">
               <div className="flex items-center gap-3">
                 <span className="font-semibold text-2xl text-primary">
-                  ${product.price}
+                  ₹{product.price}
                 </span>
                 {hasDiscount && (
                   <>
                     <span className="text-lg text-muted-foreground line-through">
-                      ${product.originalPrice}
+                      ₹{product.originalPrice}
                     </span>
                     <Badge variant="destructive" className="text-xs">
                       {discountPercentage}% OFF
@@ -160,7 +181,7 @@ const ProductDetail = () => {
               </div>
               {hasDiscount && (
                 <p className="text-sm text-green-600">
-                  You save ${(product.originalPrice! - product.price).toFixed(2)}
+                  You save ₹{(product.originalPrice! - product.price).toFixed(2)}
                 </p>
               )}
             </div>
