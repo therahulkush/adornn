@@ -162,6 +162,10 @@ export function convertShopifyProduct(shopifyProduct: ShopifyProduct, category: 
   // Extract numeric ID from GraphQL ID
   const id = node.id.split('/').pop() || node.handle;
   
+  // Get the first available variant ID for checkout
+  const firstVariant = node.variants.edges[0]?.node;
+  const variantId = firstVariant?.id || null;
+  
   const price = parseFloat(node.priceRange.minVariantPrice.amount);
   
   // Get all images from Shopify or use mapped image as fallback
@@ -201,6 +205,7 @@ export function convertShopifyProduct(shopifyProduct: ShopifyProduct, category: 
   
   return {
     id,
+    variantId,
     name: node.title,
     price,
     image: productImage,
@@ -215,4 +220,68 @@ export function convertShopifyProduct(shopifyProduct: ShopifyProduct, category: 
     isNew: node.tags.includes("new"),
     isBestseller: node.tags.includes("bestseller"),
   };
+}
+
+// Cart creation mutation for checkout
+const CART_CREATE_MUTATION = `
+  mutation cartCreate($input: CartInput!) {
+    cartCreate(input: $input) {
+      cart {
+        id
+        checkoutUrl
+        totalQuantity
+        cost {
+          totalAmount {
+            amount
+            currencyCode
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export interface CartLineInput {
+  merchandiseId: string;
+  quantity: number;
+}
+
+export async function createShopifyCheckout(lines: CartLineInput[]): Promise<string | null> {
+  try {
+    const data = await storefrontApiRequest(CART_CREATE_MUTATION, {
+      input: { lines },
+    });
+
+    if (!data || !data.data) {
+      return null;
+    }
+
+    const { cart, userErrors } = data.data.cartCreate;
+
+    if (userErrors && userErrors.length > 0) {
+      console.error('Shopify cart errors:', userErrors);
+      toast.error('Failed to create checkout', {
+        description: userErrors.map((e: any) => e.message).join(', '),
+      });
+      return null;
+    }
+
+    if (!cart?.checkoutUrl) {
+      toast.error('Failed to create checkout URL');
+      return null;
+    }
+
+    // Add channel parameter for proper checkout access
+    const url = new URL(cart.checkoutUrl);
+    url.searchParams.set('channel', 'online_store');
+    return url.toString();
+  } catch (error) {
+    console.error('Error creating Shopify checkout:', error);
+    toast.error('Failed to create checkout');
+    return null;
+  }
 }

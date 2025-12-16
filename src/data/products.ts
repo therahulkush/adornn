@@ -30,6 +30,7 @@ export const productImageMap: Record<string, string> = {
 
 export interface Product {
   id: string;
+  variantId?: string; // Shopify variant ID for checkout
   name: string;
   price: number;
   originalPrice?: number;

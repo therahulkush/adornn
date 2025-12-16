@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Minus, X, ShoppingBag, Tag, ArrowLeft } from 'lucide-react';
+import { Plus, Minus, X, ShoppingBag, Tag, ArrowLeft, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
+import { useShopifyCheckout } from '@/hooks/useShopifyCheckout';
 
 const Cart = () => {
   const { 
@@ -26,6 +27,7 @@ const Cart = () => {
   const [promoInput, setPromoInput] = useState('');
   const [showRemoveConfirm, setShowRemoveConfirm] = useState<string | null>(null);
   const { toast } = useToast();
+  const { initiateCheckout, isLoading: isCheckoutLoading } = useShopifyCheckout();
 
   const formatPrice = (price: number) => `₹${price.toFixed(2)}`;
 
@@ -326,34 +328,21 @@ const Cart = () => {
                 <Button 
                   className="w-full" 
                   size="lg"
-                  onClick={() => {
-                    toast({
-                      title: "Checkout Pending",
-                      description: (
-                        <div className="space-y-3">
-                          <p>
-                            This process is pending Shopify integration - please prompt the agent to 
-                            integrate your store using Shopify API and Store ID.
-                          </p>
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="w-full"
-                            onClick={() => window.open('https://docs.lovable.dev/integrations/shopify', '_blank')}
-                          >
-                            More Info
-                          </Button>
-                        </div>
-                      ),
-                      duration: 5000,
-                    });
-                  }}
+                  onClick={initiateCheckout}
+                  disabled={isCheckoutLoading}
                 >
-                  Proceed to Checkout
+                  {isCheckoutLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creating Checkout...
+                    </>
+                  ) : (
+                    'Proceed to Checkout'
+                  )}
                 </Button>
                 
                 <p className="text-xs text-center text-muted-foreground">
-                  Secure checkout powered by Stripe
+                  Secure checkout powered by Razorpay
                 </p>
               </CardContent>
             </Card>
