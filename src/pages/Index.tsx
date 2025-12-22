@@ -45,40 +45,34 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-[#f5f0eb]">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 animate-fade-in">
-                Where Nature Meets Nurture
-              </h1>
-              <p className="text-lg text-muted-foreground mb-8 animate-fade-in">
-                Discover 100% herbal and natural products crafted with traditional Ayurvedic wisdom. 
-                Free from harmful chemicals, backed by research, and made with love.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in">
-                <Button asChild size="lg" className="btn-hero text-lg px-8">
-                  <Link to="/shop">
-                    Shop All Products
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="text-lg px-8">
-                  <Link to="/style-quiz">
-                    Take Style Quiz
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            
-            <div className="relative">
-              <img 
-                src={heroBanner} 
-                alt="Adornn Herbals natural body care products including Body Ubtan, Hair Pack, Herbal Shampoo, and Hair Oil" 
-                className="w-full h-auto rounded-lg"
-              />
-            </div>
+      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBanner})` }}
+        />
+        <div className="absolute inset-0 bg-black/40" />
+        
+        <div className="relative z-10 text-center text-white max-w-4xl px-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
+            Where Nature Meets Nurture
+          </h1>
+          <p className="text-lg md:text-xl text-white/90 mb-8 animate-fade-in">
+            Discover 100% herbal and natural products crafted with traditional Ayurvedic wisdom. 
+            Free from harmful chemicals, backed by research, and made with love.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
+            <Button asChild size="lg" className="btn-hero text-lg px-8">
+              <Link to="/shop">
+                Shop All Products
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="text-white border-white hover:bg-white hover:text-primary text-lg px-8">
+              <Link to="/style-quiz">
+                Take Style Quiz
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
